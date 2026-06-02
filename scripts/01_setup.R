@@ -1,5 +1,6 @@
 # ---- Set working directory ------------------------------------------------------------
-setwd("~/Downloads/spatial_workshop")
+
+setwd("~/Downloads/spatial-application")
 
 # ---- Install necessary packages -------------------------------------------------------
 
@@ -44,7 +45,7 @@ stopifnot(st_crs(counties)$epsg == target_crs)
 
 cat("Setup complete.\n")
 cat(" counties: ", nrow(counties), "polygons,  CRS =", st_crs(counties)$epsg, "\n")
-cat(" tri:      ", nrow(plants), "points,    CRS =", st_crs(plants)$epsg, "\n")
+cat(" plants:      ", nrow(plants), "points,    CRS =", st_crs(plants)$epsg, "\n")
 cat(
   " pm25:     ", ncol(pm25), "x", nrow(pm25), "raster, CRS =",
   crs(pm25, describe = TRUE)$code, "\n"
