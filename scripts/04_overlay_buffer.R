@@ -41,37 +41,37 @@ print(
     theme_void()
 )
 
-# ---- Change the buffer distance from 25 km to 10 km -----------------------------------------------------------
+# ---- Second buffer: 50 km -----------------------------------------------------------
 
-buffer_dist_m <- 10000 # 10 km
+buffer_dist_m <- 50000 # 50 km
 
 plants_buf <- st_buffer(plants, dist = buffer_dist_m)
 
 # ---- Find counties intersecting any buffer ---------------------------------
 
-counties_near_10km <- counties |>
+counties_near_50km <- counties |>
   mutate(
-    n_plants_within_10km = lengths(st_intersects(geometry, plants_buf)),
-    near_plants = n_plants_within_10km > 0
+    n_plants_within_50km = lengths(st_intersects(geometry, plants_buf)),
+    near_plants = n_plants_within_50km > 0
   )
 
 # ---- Sanity check -----------------------------------------------------------
 
 cat(
-  "Counties with >=1 plant within 10 km: ",
-  sum(counties_near_10km$near_plants), " of ", nrow(counties_near_10km), "\n"
+  "Counties with >=1 plant within 50 km: ",
+  sum(counties_near_50km$near_plants), " of ", nrow(counties_near_50km), "\n"
 )
 
 # ---- Plot --------------------------------------------------------------------------
 
 print(
-  ggplot(counties_near_10km) +
+  ggplot(counties_near_50km) +
     geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
     geom_sf(data = plants, color = "black", size = 0.4) +
     scale_fill_manual(
       name   = "Near Plants?",
       values = c(`TRUE` = "#E57200", `FALSE` = "#E5E5E5")
     ) +
-    labs(title = "Counties within 10 km of any plant") +
+    labs(title = "Counties within 50 km of any plant") +
     theme_void()
 )

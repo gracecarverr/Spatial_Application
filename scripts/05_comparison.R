@@ -15,6 +15,10 @@ counties_combined <- counties_pip %>%
     by = "GEOID"
   ) %>%
   left_join(
+    counties_near_50km %>% st_drop_geometry() %>% select(GEOID, n_plants_within_50km),
+    by = "GEOID"
+  ) %>%
+  left_join(
     counties_pm_exact %>% st_drop_geometry() %>% select(GEOID, mean_pm25_exact),
     by = "GEOID"
   )
@@ -22,7 +26,8 @@ counties_combined <- counties_pip %>%
 counties_combined <- counties_combined %>%
   mutate(
     has_plants = n_plants > 0,
-    has_nearby_plants = n_plants_within_25km > 0
+    has_nearby_plants_25km = n_plants_within_25km > 0,
+    has_nearby_plants_50km = n_plants_within_50km > 0
   )
 
 # --- Descriptive statistics ----------------------------------------------------------------------------
@@ -35,7 +40,12 @@ counties_combined %>%
 
 # Comparison 2: nearby (25 km buffer)
 counties_combined %>%
-  group_by(has_nearby_plants) %>%
+  group_by(has_nearby_plants_25km) %>%
+  summarize(mean_pm25 = mean(mean_pm25_exact, na.rm = TRUE), n = n())
+
+# Comparison 3: nearby (50 km buffer)
+counties_combined %>%
+  group_by(has_nearby_plants_50km) %>%
   summarize(mean_pm25 = mean(mean_pm25_exact, na.rm = TRUE), n = n())
 
 write.csv(
@@ -52,12 +62,24 @@ write.csv(
 
 write.csv(
   counties_combined |>
-    rename(`Has Nearby Plants (25km)` = has_nearby_plants) |>
+    rename(`Has Nearby Plants (25km)` = has_nearby_plants_25km) |>
     group_by(`Has Nearby Plants (25km)`) |>
     summarize(
       `Mean PM2.5 (µg/m³)` = round(mean(mean_pm25_exact, na.rm = TRUE), 2),
       `Number of Counties` = n()
     ),
   "output/comparison_nearby_25km.csv",
+  row.names = FALSE
+)
+
+write.csv(
+  counties_combined |>
+    rename(`Has Nearby Plants (50km)` = has_nearby_plants_50km) |>
+    group_by(`Has Nearby Plants (50km)`) |>
+    summarize(
+      `Mean PM2.5 (µg/m³)` = round(mean(mean_pm25_exact, na.rm = TRUE), 2),
+      `Number of Counties` = n()
+    ),
+  "output/comparison_nearby_50km.csv",
   row.names = FALSE
 )
