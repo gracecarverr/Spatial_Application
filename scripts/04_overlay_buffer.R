@@ -1,6 +1,6 @@
-# ---- Set working directory ----------------------------------------------------------
+# ---- Setup --------------------------------------------------------------------------
 
-setwd("~/Downloads/spatial-application")
+source("scripts/01_setup.R")
 
 # ---- Confirm we are in a projected CRS ---------------------
 
@@ -49,7 +49,7 @@ plants_buf <- st_buffer(plants, dist = buffer_dist_m)
 
 # ---- Find counties intersecting any buffer ---------------------------------
 
-counties_near <- counties |>
+counties_near_10km <- counties |>
   mutate(
     n_plants_within_10km = lengths(st_intersects(geometry, plants_buf)),
     near_plants = n_plants_within_10km > 0
@@ -59,13 +59,13 @@ counties_near <- counties |>
 
 cat(
   "Counties with >=1 plant within 10 km: ",
-  sum(counties_near$near_plants), " of ", nrow(counties_near), "\n"
+  sum(counties_near_10km$near_plants), " of ", nrow(counties_near_10km), "\n"
 )
 
 # ---- Plot --------------------------------------------------------------------------
 
 print(
-  ggplot(counties_near) +
+  ggplot(counties_near_10km) +
     geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
     geom_sf(data = plants, color = "black", size = 0.4) +
     scale_fill_manual(
