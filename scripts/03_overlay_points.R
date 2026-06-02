@@ -23,14 +23,14 @@ cat("Sum of plants-per-county:", sum(counties_pip$n_plants), "\n")
 
 # ---- Plot -------------------------------------------------------------------
 
-print(
-  ggplot(counties_pip) +
-    geom_sf(aes(fill = n_plants), color = "white", linewidth = 0.1) +
-    scale_fill_viridis_c(name = "Plants", option = "magma", trans = "sqrt") +
-    labs(title = "Plants per U.S. County") +
-    theme_void() +
-    theme(legend.position = "right")
-)
+p_plants <- ggplot(counties_pip) +
+  geom_sf(aes(fill = n_plants), color = "white", linewidth = 0.1) +
+  scale_fill_viridis_c(name = "Plants", option = "magma", trans = "sqrt") +
+  labs(title = "Plants per U.S. County") +
+  theme_void() +
+  theme(legend.position = "right")
+print(p_plants)
+ggsave("output/plants_per_county.png", p_plants, width = 8, height = 5)
 
 counties_density_pip <- counties_pip |>
   mutate(

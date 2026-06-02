@@ -4,9 +4,17 @@
 
 **Q1: Plants per county.** 12,175 of 12,185 plants matched a county, meaning we were left with 10 plants that did not match a county. 
 
+![Plants per county](output/plants_per_county.png)
+
 **Q2: Plants within 25 km and 50 km.** I buffered each plant by 25 km and 50 km and counted how many buffers intersect each county. I chose 25 km as a more conservative radius and 50 km to capture the larger zone where PM2.5 concentrations from taller stacks are elevated (Levy et al. 2009).
 
+![Buffer 25 km](output/buffer_25km.png)
+
+![Buffer 50 km](output/buffer_50km.png)
+
 **Q3: Mean PM2.5.** Used an exact extract to find each county's mean PM2.5 concentration. Comparisons listed below:
+
+![Mean PM2.5 by county](output/mean_pm25.png)
 
 ## Comparison
 

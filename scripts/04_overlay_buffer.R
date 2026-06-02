@@ -29,17 +29,17 @@ cat(
 
 # ---- Plot -------------------------------------------------------------------
 
-print(
-  ggplot(counties_near) +
-    geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
-    geom_sf(data = plants, color = "black", size = 0.4) +
-    scale_fill_manual(
-      name   = "Near Plants?",
-      values = c(`TRUE` = "#E57200", `FALSE` = "#E5E5E5")
-    ) +
-    labs(title = "Counties within 25 km of any Plant") +
-    theme_void()
-)
+p_buffer_25 <- ggplot(counties_near) +
+  geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
+  geom_sf(data = plants, color = "black", size = 0.4) +
+  scale_fill_manual(
+    name   = "Near Plants?",
+    values = c(`TRUE` = "#E57200", `FALSE` = "#E5E5E5")
+  ) +
+  labs(title = "Counties within 25 km of any Plant") +
+  theme_void()
+print(p_buffer_25)
+ggsave("output/buffer_25km.png", p_buffer_25, width = 8, height = 5)
 
 # ---- Second buffer: 50 km -----------------------------------------------------------
 
@@ -64,14 +64,14 @@ cat(
 
 # ---- Plot --------------------------------------------------------------------------
 
-print(
-  ggplot(counties_near_50km) +
-    geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
-    geom_sf(data = plants, color = "black", size = 0.4) +
-    scale_fill_manual(
-      name   = "Near Plants?",
-      values = c(`TRUE` = "#E57200", `FALSE` = "#E5E5E5")
-    ) +
-    labs(title = "Counties within 50 km of any plant") +
-    theme_void()
-)
+p_buffer_50 <- ggplot(counties_near_50km) +
+  geom_sf(aes(fill = near_plants), color = "white", linewidth = 0.1) +
+  geom_sf(data = plants, color = "black", size = 0.4) +
+  scale_fill_manual(
+    name   = "Near Plants?",
+    values = c(`TRUE` = "#E57200", `FALSE` = "#E5E5E5")
+  ) +
+  labs(title = "Counties within 50 km of any plant") +
+  theme_void()
+print(p_buffer_50)
+ggsave("output/buffer_50km.png", p_buffer_50, width = 8, height = 5)

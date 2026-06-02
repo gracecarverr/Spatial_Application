@@ -12,11 +12,13 @@ counties_pm_exact <- counties |>
     )
   )
 
-ggplot(counties_pm_exact) +
+p_pm25 <- ggplot(counties_pm_exact) +
   geom_sf(aes(fill = mean_pm25_exact), color = NA) +
   scale_fill_viridis_c(name = "PM2.5", option = "magma") +
   labs(title = "Mean PM2.5 by county") +
   theme_void()
+print(p_pm25)
+ggsave("output/mean_pm25.png", p_pm25, width = 8, height = 5)
 
 # ---- Compute max PM2.5 per county ----------------------------------------------------------------
 
