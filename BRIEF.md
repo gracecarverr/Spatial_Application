@@ -1,4 +1,4 @@
-# Power Plants and PM2.5: A Spatial Comparison
+# Power Plants and PM2.5
 
 ## Methods
 
